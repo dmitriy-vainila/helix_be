@@ -1,18 +1,34 @@
-const express = require("express");
-require("dotenv").config();
-const cors = require("cors");
+// const express = require("express");
+// const cors = require("cors");
 
-const PORT = process.env.PORT || 8000;
+// require("dotenv").config();
 
-const app = express();
-app.use(cors());
+// const app = express();
+// app.use(cors());
 
-const {Sequelize } = require("sequelize");
+/////////////////////
 
-const sequelize = new Sequelize()
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
+prisma.user.create({ data: {} });
 
+async function main() {
+   const user = await prisma.user.deleteMany();
+   console.log(user);
+}
 
-app.listen(PORT, () => {
-   console.log(`server is running on port ${PORT}`);
-});
+main()
+   .catch((e) => {
+      console.log(e.message);
+   })
+   .finally(async () => {
+      await prisma.$disconnect();
+   });
+
+/////////////////////
+
+// const PORT = process.env.PORT || 8000;
+// app.listen(PORT, () => {
+//    console.log(`server is running on port ${PORT}`);
+// });
